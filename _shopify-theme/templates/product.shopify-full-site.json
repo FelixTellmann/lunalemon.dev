@@ -59,41 +59,13 @@
       "type": "heading",
       "settings": {
         "pre_title": "Expert development",
-        "title": "We speak, eat, sleep Shopify",
+        "title": "We speak, eat, sleep E-commerce",
         "paragraph": "<p>We have extensive Shopify experience and have developed ecommerce stores and solutions for our clients worldwide. Whether you want to built a new ecommerce store, migrate, or help with your current store. We are here to help you succeed. <\/p>",
         "cta1": "",
         "cta1_link": "",
         "cta2": "",
         "cta2_link": "",
         "position": "center"
-      }
-    },
-    "1654762013d2c9eed0": {
-      "type": "story",
-      "blocks": {
-        "1edc02ca-a844-4f5c-93fb-791e53248869": {
-          "type": "image-text",
-          "settings": {
-            "pre_title": "Choosing the right plateform",
-            "title": "Why we choose Shopify",
-            "paragraph": "<p>Over 1 million merchants across 175 countries agree with us and trust Shopify to run their stores. Here's why we think it's the right platform for you too...<\/p>",
-            "list_title": "",
-            "list": "<p>Easy to use<\/p><p>Great support<\/p><p>Multi-payment gateway integration<\/p><p><\/p><p>Tracking and maintaining customer data<\/p><p>Across-channel selling<\/p><p>Analytics reporting<\/p><p>Built-in cart abandonment feature<\/p><p>Optimized for SEO, easily customizable keywords<\/p><p>Integrations made easy<\/p>",
-            "image": "shopify:\/\/shop_images\/why-shopify_ba49a8c5-1677-4827-953c-608d381d73cc.png",
-            "aspect_desktop": "4-3",
-            "fit_height": false,
-            "aspect_mobile": "21-9",
-            "position": "right"
-          }
-        }
-      },
-      "block_order": [
-        "1edc02ca-a844-4f5c-93fb-791e53248869"
-      ],
-      "settings": {
-        "spacing": "md",
-        "spacing_top": 0,
-        "spacing_bottom": 0
       }
     },
     "1658740480bb450054": {
@@ -318,6 +290,34 @@
         "spacing_bottom": 0
       }
     },
+    "1654762013d2c9eed0": {
+      "type": "story",
+      "blocks": {
+        "1edc02ca-a844-4f5c-93fb-791e53248869": {
+          "type": "image-text",
+          "settings": {
+            "pre_title": "Choosing the right plateform",
+            "title": "Why we choose Shopify",
+            "paragraph": "<p>Over 1 million merchants across 175 countries agree with us and trust Shopify to run their stores. Here's why we think it's the right platform for you too...<\/p>",
+            "list_title": "",
+            "list": "<p>Easy to use<\/p><p>Great support<\/p><p>Multi-payment gateway integration<\/p><p><\/p><p>Tracking and maintaining customer data<\/p><p>Across-channel selling<\/p><p>Analytics reporting<\/p><p>Built-in cart abandonment feature<\/p><p>Optimized for SEO, easily customizable keywords<\/p><p>Integrations made easy<\/p>",
+            "image": "shopify:\/\/shop_images\/why-shopify_ba49a8c5-1677-4827-953c-608d381d73cc.png",
+            "aspect_desktop": "4-3",
+            "fit_height": false,
+            "aspect_mobile": "21-9",
+            "position": "right"
+          }
+        }
+      },
+      "block_order": [
+        "1edc02ca-a844-4f5c-93fb-791e53248869"
+      ],
+      "settings": {
+        "spacing": "md",
+        "spacing_top": 0,
+        "spacing_bottom": 0
+      }
+    },
     "1656930716ec9b0e94": {
       "type": "image-carousel",
       "settings": {
@@ -357,6 +357,7 @@
           "broadway-jewellers",
           "volkswagen"
         ],
+        "with_link": false,
         "spacing": "custom",
         "spacing_top": 16,
         "spacing_bottom": 8
@@ -394,10 +395,10 @@
   "order": [
     "1656935895e67bca71",
     "165476159216c4ff5c",
-    "1654762013d2c9eed0",
     "1658740480bb450054",
     "1654424131fb27794e",
     "16587554309243208c",
+    "1654762013d2c9eed0",
     "1656930716ec9b0e94",
     "165719846348099467",
     "165476583906badf90"

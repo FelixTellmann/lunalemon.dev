@@ -76,7 +76,7 @@
             "title": "From challenge to solution",
             "paragraph": "<p>How we overcome Kids Livings challenge on having their product information on BigCommerce and on an outdated POS system to an all round solution with VEND and Shopify. Continuously working with them to help their online business succeed. <\/p>",
             "cta1": "Migrate your website",
-            "cta1_link": "shopify:\/\/products\/shopify-customizations",
+            "cta1_link": "shopify:\/\/products\/shopify-migrations",
             "cta2": "Contact us directly",
             "cta2_link": "mailto:hello@lunalemon.dev",
             "position": "center"
@@ -619,7 +619,7 @@
         "cta2_link": "",
         "position": "left",
         "features": [
-          "shopify-customizations",
+          "shopify-migrations",
           "shopify-full-sites",
           "shopify-integration",
           "shopify-seo-packages",

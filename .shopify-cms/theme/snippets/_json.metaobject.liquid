@@ -1,0 +1,118 @@
+{% assign jsonString = input | json | split: '||||||' | first | replace_first: '{"', "" | replace_first: '":', "|:|" | split: '|:|' %}
+{% assign keys = jsonString[0] %}
+{% assign jsonString = jsonString[1] %}
+{% for i in (0..20) %}
+  {% assign chars = jsonString | split: "" %}
+  {% assign firstChar = chars | first %}
+  {% assign firstNum = chars | first | abs %}
+  {% assign _1char = chars[1] %}
+  {% assign _2char = chars[2] %}
+  {% assign _3char = chars[3] %}
+  {% assign _4char = chars[4] %}
+  {% assign _5char = chars[5] %}
+  {% assign firstWord = firstChar | append: _1char | append: _2char | append: _3char | append: _4char %}
+  {% if firstChar == "{" and jsonString contains '},"' %}
+    {% assign jsonString = jsonString | replace_first: '},"', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% if firstChar == "[" and jsonString contains '],"' %}
+    {% assign jsonString = jsonString | replace_first: '],"', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% if firstChar == '"' and jsonString contains '","' %}
+    {% assign jsonString = jsonString | replace_first: '","', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% if firstNum > 0 or firstNum == 0 and jsonString contains ',"' %}
+    {% assign jsonString = jsonString | replace_first: ',"', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% if firstWord contains 'true' and jsonString contains ',"' %}
+    {% assign jsonString = jsonString | replace_first: ',"', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% if firstWord contains 'false' and jsonString contains ',"' %}
+    {% assign jsonString = jsonString | replace_first: ',"', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% if firstWord contains 'null' and jsonString contains ',"' %}
+    {% assign jsonString = jsonString | replace_first: ',"', "|:|" | split: '|:|' | last | replace_first: '":', "|:|" | split: "|:|" %}
+    {% assign keys = keys | append: "," | append: jsonString[0] %}
+    {% assign jsonString = jsonString[1] %}
+    {% continue %}
+  {% endif %}
+  {% break %}
+{% endfor %}
+{% assign keys = keys | split: "," %}
+{%- capture json -%}
+  {
+  {%- for key in keys -%}
+    {%- assign metafield = input[key] -%}
+    ,{{- key | json -}}:
+    {%- if metafield.type == "list.page_reference" -%}
+      {{- metafield -}}
+    {%- elsif metafield.type == "dimension" or metafield.type == "weight" or metafield.type == "volume" -%}
+      {
+      "type": {{- metafield.value.type | json -}},
+      "unit": {{- metafield.value.unit | json -}},
+      "value": {{- metafield.value.value | json -}}
+      }
+    {%- elsif metafield.type == "rating" -%}
+      {
+      "rating": {{- metafield.value.rating | json -}},
+      "scale_max": {{- metafield.value.scale_max | json -}},
+      "scale_min": {{- metafield.value.scale_min | json -}}
+      }
+    {%- elsif metafield.type == "metaobject_reference" or metafield.type == "mixed_reference" -%}
+      {% render '_json.metaobject', input: metafield.value %}
+    {%- elsif metafield.type == "list.metaobject_reference" or metafield.type == "list.mixed_reference" -%}
+      [{% for value in metafield.value %}{% render '_json.metaobject', input: value %}{% unless forloop.last %},{% endunless %}{% endfor %}]
+    {%- elsif metafield.type == "product_reference" -%}
+      {{ metafield.value.handle | json }}
+    {%- elsif metafield.type == "list.product_reference" -%}
+      {{ metafield.value | map: "handle" | json }}
+    {%- elsif metafield.type == "rich_text_field" -%}
+      {% assign richtextStr = "" %}
+      {% assign richtext = metafield | metafield_tag | replace: '<div class="metafield-rich_text_field">', "" | split: "</div>" %}
+      {% for htmlBlock in richtext %}
+        {% if forloop.last %}
+          {% assign richtextStr = richtextStr | append: htmlBlock %}
+          {% break %}
+        {% endif %}
+        {% assign richtextStr = richtextStr | append: htmlBlock | append: "</div>" %}
+      {% endfor %}
+      {{- richtextStr | json -}}
+    {%- elsif metafield.type == "collection_reference"
+    or metafield.type == "list.collection_reference"
+    or metafield.type == "variant_reference"
+    or metafield.type == "list.variant_reference"
+    or metafield.type == "list.color"
+    or metafield.type == "file_reference"
+    or metafield.type == "list.file_reference"
+    or metafield.type == "boolean"
+    or metafield.type == "number_decimal"
+    or metafield.type == "list.number_decimal"
+    or metafield.type == "number_integer"
+    or metafield.type == "list.number_integer" -%}
+      {{- metafield.value | json -}}
+    {%- elsif metafield.type == null and metafield.size < 500 -%}
+      "{{- metafield | escape -}}"
+    {%- else -%}
+      {%- if metafield.value.size < 500 -%}{{- metafield.value | json -}}{%- else -%}null{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+  }
+{%- endcapture -%}
+{{- json | remove_first: ',' | trim | strip_newlines -}}

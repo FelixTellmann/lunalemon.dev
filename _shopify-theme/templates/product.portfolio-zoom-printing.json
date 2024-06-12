@@ -76,7 +76,7 @@
             "title": "From Challenge to Solution",
             "paragraph": "<p>How we overcome ZOOM PRINTING challenges to migrate their store from Legacy to Shopify, while creating a fresh and UX driven site that would suit their large inventory and requirements for customizable products with multiple product variability.<\/p>",
             "cta1": "Migrate your website",
-            "cta1_link": "shopify:\/\/products\/shopify-customizations",
+            "cta1_link": "shopify:\/\/products\/shopify-migrations",
             "cta2": "Contact us directly",
             "cta2_link": "mailto:hello@lunalemon.dev",
             "position": "center"
@@ -600,7 +600,7 @@
         "cta2_link": "",
         "position": "left",
         "features": [
-          "shopify-customizations",
+          "shopify-migrations",
           "shopify-full-sites",
           "shopify-integration",
           "shopify-seo-packages",

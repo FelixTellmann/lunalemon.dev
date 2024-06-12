@@ -79,7 +79,7 @@
         "cta2_link": "",
         "position": "center",
         "features": [
-          "shopify-customizations",
+          "shopify-migrations",
           "shopify-full-sites",
           "shopify-integration",
           "shopify-seo-packages",
@@ -260,6 +260,7 @@
           "zoom-printing",
           "suitable"
         ],
+        "with_link": false,
         "spacing": "custom",
         "spacing_top": 16,
         "spacing_bottom": 8

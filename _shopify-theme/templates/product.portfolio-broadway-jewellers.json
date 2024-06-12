@@ -76,7 +76,7 @@
             "title": "From problem to solution",
             "paragraph": "<p>How we overcame Broadway Jewellers challenges to migrate their store from WordPress to Shopify,  having an updated store design and content flow to showcase their large amount of inventory. We continuously worked with them to increase site visits, engagement, and product purchases. <br\/><\/p>",
             "cta1": "Migrate your website",
-            "cta1_link": "shopify:\/\/products\/shopify-customizations",
+            "cta1_link": "shopify:\/\/products\/shopify-migrations",
             "cta2": "Contact us directly",
             "cta2_link": "mailto:hello@lunalemon.dev",
             "position": "center"
@@ -666,7 +666,7 @@
         "cta2_link": "",
         "position": "left",
         "features": [
-          "shopify-customizations",
+          "shopify-migrations",
           "shopify-full-sites",
           "shopify-integration",
           "shopify-seo-packages",

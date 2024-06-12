@@ -20,6 +20,7 @@ module.exports = withBundleAnalyzer({
       "avatars1.githubusercontent.com",
       "avatars.githubusercontent.com",
       "cdn.shopify.com",
+      "liquix-theme-dev.myshopify.com",
       "burst.shopifycdn.com",
       "images.unsplash.com",
     ],

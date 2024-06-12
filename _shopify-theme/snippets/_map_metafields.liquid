@@ -1,33 +1,64 @@
-{%- if metafields -%}
-  {
-  {%- for key in metafields -%}
-    {{ key[0] | json }}:
-    {%- if metafields[key[0]].type == "page_reference" -%}
-      {%- include '_map_page', input_page: metafields[key[0]].value, no_metafields: true -%}{%- unless forloop.last -%},{%- endunless -%}
-    {%- elsif metafields[key[0]].type == "list.page_reference" -%}
-      {{ metafields[key[0]] }}{%- unless forloop.last -%},{%- endunless -%}
-    {%- elsif metafields[key[0]].type == "dimension" or metafields[key[0]].type == "weight" or metafields[key[0]].type == "volume" -%}
-      {
-      "type": {{ metafields[key[0]].value.type | json }},
-      "unit": {{ metafields[key[0]].value.unit | json }},
-      "value": {{ metafields[key[0]].value.value | json }}
-      }{%- unless forloop.last -%},{%- endunless -%}
-    {%- elsif metafields[key[0]].type == "rating" -%}
-      {
-      "rating": {{ metafields[key[0]].value.rating | json }},
-      "scale_max": {{ metafields[key[0]].value.scale_max | json }},
-      "scale_min": {{ metafields[key[0]].value.scale_min | json }}
-      }{%- unless forloop.last -%},{%- endunless -%}
-    {%- elsif metafields[key[0]].type == "product_reference" -%}
-      {%- include '_map_product', input_product: metafields[key[0]].value, no_metafields: true -%}{%- unless forloop.last -%},{%- endunless -%}
-    {%- elsif metafields[key[0]].type == "list.product_reference" -%}
-      [{% for p in metafields[key[0]].value %}{%- include '_map_product', input_product: p, no_metafields: true -%}{%- unless forloop.last -%},{%- endunless -%}{% endfor %}]{%- unless forloop.last -%},{%- endunless -%}
-    {%- else -%}
-      {{ metafields[key[0]].value | json }}{%- unless forloop.last -%},{%- endunless -%}
-    {%- endif -%}
-  {%- endfor -%}
-  }
-{%- else -%}
-  []
-{%- endif -%}
-
+{%- capture json -%}
+  {%- if metafields -%}
+    {
+    {%- for key in metafields -%}
+      {%- assign metafield = metafields[key[0]] -%}
+      ,{{- key[0] | json -}}:
+      {%- if metafield.type == "list.page_reference" -%}
+        {{- metafield -}}
+      {%- elsif metafield.type == "dimension" or metafield.type == "weight" or metafield.type == "volume" -%}
+        {
+        "type": {{- metafield.value.type | json -}},
+        "unit": {{- metafield.value.unit | json -}},
+        "value": {{- metafield.value.value | json -}}
+        }
+      {%- elsif metafield.type == "rating" -%}
+        {
+        "rating": {{- metafield.value.rating | json -}},
+        "scale_max": {{- metafield.value.scale_max | json -}},
+        "scale_min": {{- metafield.value.scale_min | json -}}
+        }
+      {%- elsif metafield.type == "rich_text_field" -%}
+        {% assign richtextStr = "" %}
+        {% assign richtext = metafield | metafield_tag | replace: '<div class="metafield-rich_text_field">', "" | split: "</div>" %}
+        {% for htmlBlock in richtext %}
+          {% if forloop.last %}
+            {% assign richtextStr = richtextStr | append: htmlBlock %}
+            {% break %}
+          {% endif %}
+          {% assign richtextStr = richtextStr | append: htmlBlock | append: "</div>" %}
+        {% endfor %}
+        {{- richtextStr | json -}}
+      {% elsif metafield.type == "file_reference" and metafield.value.media_type == "image" %}
+        {%- render '_json.image', input_image: metafield.value -%}
+      {%- elsif metafield.type == "metaobject_reference" or metafield.type == "mixed_reference" -%}
+        {% render '_json.metaobject', input: metafield.value %}
+      {%- elsif metafield.type == "list.metaobject_reference" or metafield.type == "list.mixed_reference" -%}
+        [{% for value in metafield.value %}{% render '_json.metaobject', input: value %}{% unless forloop.last %},{% endunless %}{% endfor %}]
+      {%- elsif metafield.type == "collection_reference"
+      or metafield.type == "list.collection_reference"
+      or metafield.type == "variant_reference"
+      or metafield.type == "list.variant_reference"
+      or metafield.type == "list.color"
+      or metafield.type == "file_reference"
+      or metafield.type == "list.file_reference"
+      or metafield.type == "boolean"
+      or metafield.type == "number_decimal"
+      or metafield.type == "list.number_decimal"
+      or metafield.type == "product_reference"
+      or metafield.type == "list.product_reference"
+      or metafield.type == "number_integer"
+      or metafield.type == "list.number_integer" -%}
+        {{- metafield.value | json -}}
+      {%- elsif metafield.type == null and metafield.size < 500 -%}
+        "{{- metafield | escape -}}"
+      {%- else -%}
+        {%- if metafield.value.size < 500 -%}{{- metafield.value | json -}}{%- else -%}null{%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    }
+  {%- else -%}
+    []
+  {%- endif -%}
+{%- endcapture -%}
+{{- json | remove_first: ',' | trim | strip_newlines -}}

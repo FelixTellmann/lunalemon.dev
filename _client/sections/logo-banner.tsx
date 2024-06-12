@@ -21,6 +21,7 @@ export const LogoBannerGrid: FC<LogoBannerSection> = ({ id, settings, blocks, ty
   const [tooltip, setTooltip] = useTooltipStore();
   const products = settings.collection?.products ?? settings.products ?? [];
 
+  console.log({ products });
   return (
     <Wrapper
       maxWidth="xl"
